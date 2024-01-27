@@ -1,5 +1,6 @@
 package com.joel.br.CatalogExpert;
 
+import jakarta.persistence.Embeddable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
