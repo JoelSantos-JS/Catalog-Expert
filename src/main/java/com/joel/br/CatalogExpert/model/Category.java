@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+
 @NoArgsConstructor
 @Data
 @Table
@@ -16,4 +19,19 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    private Instant createdAt;
+    private Instant updatedAt;
+    @ManyToMany
+    private Set<Product> products = new HashSet<>();
+
+    @PrePersist
+    public void preCreated() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
+    }
 }

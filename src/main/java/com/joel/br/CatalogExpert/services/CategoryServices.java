@@ -6,6 +6,9 @@ import com.joel.br.CatalogExpert.mapper.CategoryMapper;
 import com.joel.br.CatalogExpert.model.Category;
 import com.joel.br.CatalogExpert.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +24,9 @@ public class CategoryServices {
 
 
 
-    public List<CategoryDTO> findAll() {
-        List<Category> category = categoryRepository.findAll();
-        return category.stream().map(e -> mapper.toEntity(e)).collect(Collectors.toList());
+    public Page<CategoryDTO> findAll(Pageable pageable) {
+        Page<Category> category = categoryRepository.findAll(pageable);
+        return category.map(e -> mapper.toEntity(e));
     }
 
 
@@ -46,5 +49,25 @@ public class CategoryServices {
         CategoryDTO categoryDTO1  = mapper.toEntity(entitySaved);
         return categoryDTO1;
 
+    }
+
+
+    public CategoryDTO update(Long id, CategoryDTO dto) {
+        Category category  = categoryRepository.findById(id).get();
+
+        if(category != null) {
+            BeanUtils.copyProperties(dto, category, "id");
+            categoryRepository.save(category);
+            return mapper.toEntity(category);
+        }else  {
+            return  null;
+        }
+
+
+    }
+
+
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
     }
 }

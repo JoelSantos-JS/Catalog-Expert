@@ -3,6 +3,9 @@ package com.joel.br.CatalogExpert.controller;
 import com.joel.br.CatalogExpert.dto.CategoryDTO;
 import com.joel.br.CatalogExpert.services.CategoryServices;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +22,8 @@ public class CategoryController {
 
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> findAll() {
-        return ResponseEntity.ok().body(services.findAll());
+    public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable) {
+        return ResponseEntity.ok().body(services.findAll(pageable));
     }
 
 
@@ -32,6 +35,19 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<CategoryDTO> createCategory(@RequestBody CategoryDTO categoryDTO) {
 
-        return ResponseEntity.ok().body(services.createCategory(categoryDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(services.createCategory(categoryDTO));
+    }
+
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO) {
+        return ResponseEntity.ok().body(services.update(id,categoryDTO));
+    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteCategoru(@PathVariable Long id) {
+        services.deleteCategory(id);
+        return ResponseEntity.noContent().build();
     }
 }
