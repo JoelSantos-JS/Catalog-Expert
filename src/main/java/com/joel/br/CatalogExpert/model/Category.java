@@ -13,6 +13,7 @@ import java.util.Set;
 @Data
 @Table
 @Entity(name = "Category")
+@AllArgsConstructor
 public class Category {
 
     @Id
@@ -22,8 +23,7 @@ public class Category {
 
     private Instant createdAt;
     private Instant updatedAt;
-    @ManyToMany
-    private Set<Product> products = new HashSet<>();
+
 
     @PrePersist
     public void preCreated() {
