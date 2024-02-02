@@ -22,4 +22,11 @@ public class CategoryDTO {
         this.createdAt = cat.getCreatedAt();
         this.updatedAt = cat.getUpdatedAt();
     }
+
+    public CategoryDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
+    }
 }

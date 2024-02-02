@@ -11,6 +11,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class ProductDTO {
+    private Long id;
     private String name;
     private String description;
     private Double price;
@@ -18,7 +19,7 @@ public class ProductDTO {
 
     private Set<CategoryDTO> categories = new HashSet<>();
 
-    public ProductDTO(String name, String description, Double price, String imgUrl) {
+    public ProductDTO(Long id,String name, String description, Double price, String imgUrl) {
         this.name = name;
         this.description = description;
         this.price = price;

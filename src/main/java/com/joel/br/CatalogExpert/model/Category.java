@@ -20,10 +20,23 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
+    @Column(name = "created_at", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
+    @ManyToMany(mappedBy = "categories")
+    private Set<Product> products = new HashSet<>();
+    public Category(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
+    public Category(Long id , String name , Instant createdAt , Instant updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     @PrePersist
     public void preCreated() {
