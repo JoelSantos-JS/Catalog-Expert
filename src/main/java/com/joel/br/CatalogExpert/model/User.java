@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @NotBlank
     private String email;
     @NotBlank
-    @Size(min = 8, max = 20, message = "Password must been 8 and 20 Characters")
+    @Size(min = 8,  message = "Password must been 8 and 20 Characters")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -44,6 +44,10 @@ public class User implements UserDetails {
 
         }
         return false;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
     @Override

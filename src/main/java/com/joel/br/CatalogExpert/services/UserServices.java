@@ -8,6 +8,7 @@ import com.joel.br.CatalogExpert.model.Product;
 import com.joel.br.CatalogExpert.model.Role;
 import com.joel.br.CatalogExpert.model.User;
 import com.joel.br.CatalogExpert.repository.RoleRepository;
+import com.joel.br.CatalogExpert.repository.UserDetailsProjection;
 import com.joel.br.CatalogExpert.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -78,6 +81,23 @@ public class UserServices implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByEmail(username);
+
+
+        List<UserDetailsProjection> result = repository.searchUsersAndRoleByEmail(username);
+
+        if(result.size() == 0) {
+            throw  new UsernameNotFoundException("user not found");
+        }
+
+        User user = new User();
+        user.setEmail(username);
+        user.setPassword(result.get(0).getPassword());
+
+        for(UserDetailsProjection us : result) {
+            user.addRole(new Role(us.getRoleId(), us.getAuthority()));
+        }
+
+
+        return user;
     }
 }

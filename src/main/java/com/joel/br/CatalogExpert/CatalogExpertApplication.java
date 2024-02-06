@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class CatalogExpertApplication implements CommandLineRunner {
+public class CatalogExpertApplication  {
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -17,8 +17,5 @@ public class CatalogExpertApplication implements CommandLineRunner {
 		SpringApplication.run(CatalogExpertApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("ENCODE" + encoder.encode("88127197"));
-	}
+
 }
