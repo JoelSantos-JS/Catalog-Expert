@@ -2,6 +2,7 @@ package com.joel.br.CatalogExpert.controller;
 
 import com.joel.br.CatalogExpert.dto.ProductDTO;
 import com.joel.br.CatalogExpert.services.ProductServices;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +30,12 @@ public class ProductController {
         return ResponseEntity.ok(services.findById(id));
     }
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO dto){
         return ResponseEntity.ok(services.createProduct(dto));
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id ,@RequestBody ProductDTO dto){
+    public ResponseEntity<ProductDTO> updateProduct( @PathVariable Long id ,@RequestBody ProductDTO dto){
         return ResponseEntity.ok(services.updateProduct(id , dto));
     }
 
